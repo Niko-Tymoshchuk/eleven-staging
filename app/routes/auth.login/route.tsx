@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
@@ -14,7 +15,7 @@ import {
 import polarisTranslations from "@shopify/polaris/locales/en.json";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 
-import { login } from "../../shopify.server";
+import { login } from "~/shopify.server";
 
 import { loginErrorMessage } from "./error.server";
 
