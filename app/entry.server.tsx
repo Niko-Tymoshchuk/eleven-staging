@@ -1,12 +1,12 @@
-import { PassThrough } from "stream";
-import { renderToPipeableStream } from "react-dom/server";
+import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
-import {
-  createReadableStreamFromReadable,
-  type EntryContext,
-} from "@remix-run/node";
 import { isbot } from "isbot";
+import { renderToPipeableStream } from "react-dom/server";
+import { PassThrough } from "stream";
+
 import { addDocumentResponseHeaders } from "./shopify.server";
+
+import type { EntryContext } from "@remix-run/node";
 
 const ABORT_DELAY = 5000;
 
