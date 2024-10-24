@@ -9,15 +9,37 @@
     "deploy": "shopify app deploy",
     "config:use": "shopify app config use",
     "env": "shopify app env",
-    "start": "remix-serve ./build/server/index.js",
+    "start": "dotenv -e .env -- remix-serve ./build/server/index.js",
     "docker-start": "npm run setup && npm run start",
-    "setup": "prisma generate && prisma migrate deploy",
+    "setup": "prisma generate && prisma migrate deploy && npm run seed",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "shopify": "shopify",
     "prisma": "prisma",
+    "seed": "tsx prisma/seed.ts",
     "graphql-codegen": "graphql-codegen",
-    "vite": "vite"
+    "vite": "vite",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
+    "format": "prettier --write .",
+    "test": "yarn check-format && yarn lint && yarn format",
+    "fix": "yarn format && yarn lint --fix",
+    "test-all": "npm run format && npm run check-format && npm run check-lint && npm run check-types && npm run build",
+    "prepare": "husky",
+    "cron-worker": "tsx workers/cron.ts",
+    "bulk-worker": "tsx workers/bulkOperations.ts",
+    "abandoned-worker": "tsx workers/abandoned.ts"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn precommit"
+    }
+  },
+  "browserslist": [
+    ">0.3%",
+    "not dead",
+    "not op_mini all"
+  ],
   "type": "module",
   "engines": {
     "node": "^18.20 || ^20.10 || >=21.0.0"
@@ -47,7 +69,8 @@
     "@types/react-dom": "^18.2.14",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.2.4",
+    "husky": "^9.1.6",
+    "prettier": "^3.3.3",
     "typescript": "^5.2.2",
     "vite": "^5.1.3"
   },
