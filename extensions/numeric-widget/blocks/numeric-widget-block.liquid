@@ -1,0 +1,235 @@
+<script>
+  const product = {{ product | json }};
+  const environment = window.Shopify && window.Shopify.designMode ? "sandbox" : "store";
+  const buttonEnabled = {% if shop.metafields.custom.widget_has_requests != blank %} {{ shop.metafields.custom.widget_has_requests }} {% else %} false {% endif %};
+  const sharedOptions = {% if shop.metafields.custom.sharedOptions != blank %} {{ shop.metafields.custom.sharedOptions }} {% else %} [] {% endif %};
+  const sharedOptionsEnabled = {% if shop.metafields.custom.sharedOptionsEnabled != blank %} {{ shop.metafields.custom.sharedOptionsEnabled }} {% else %} false {% endif %};
+  const customImages = {% if product.metafields.widget.custom_images != blank %} {{ product.metafields.widget.custom_images }} {% else %} null {% endif %};
+  const firstAvailableOrSelected = {% if product.selected_or_first_available_variant != blank %} {{ product.selected_or_first_available_variant | json }} {% else %} null {% endif %};
+
+  window.numeric_widget = {
+    funnel_id: null,
+    product: {...product, customImages, firstAvailableOrSelected},
+    shopUrl: '{{ shop.url }}',
+    upload_ico_src: '{{ "widget-upload-block-ico.png" | asset_url }}',
+    environment,
+    settings: {{ block.settings | json }},
+    sharedOptions,
+    sharedOptionsEnabled,
+    signal: null
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const widgetBlock = document.createElement('widget-block');
+    widgetBlock.innerHTML = `
+        <div class="widget-card">
+          <div class="widget-card-body">
+            <p class=${window.numeric_widget.settings.button_add_promotional === true
+              && window.numeric_widget.settings.button_promotional.length > 0
+              ? '' : 'widget-hidden'}>
+                ${window.numeric_widget.settings.button_promotional}
+            </p>
+            <button type='button' class='widget-button'>${window.numeric_widget.settings.button_text}</button>
+          </div>
+        </div>`
+
+    if (environment === 'store') {
+      const tags = product.tags;
+      if (tags?.includes('widget_in_funnel') && buttonEnabled) {
+        const funnelId = tags.map(item => {
+          const parts = item.split('_');
+          return parts.length > 3 ? parts[parts.length - 1] : null;
+        }).filter(item => item)?.[0] || null;
+
+        window.numeric_widget.funnel_id = parseInt(funnelId);
+
+        const formBlock = document.body.querySelector(window.numeric_widget.settings.general_block_selector);
+        formBlock?.prepend(widgetBlock);
+      }
+    } else {
+      const formBlock = document.body.querySelector(window.numeric_widget.settings.general_block_selector);
+      formBlock?.prepend(widgetBlock);
+    }
+  });
+</script>
+
+{{ "widget-block-style.css" | asset_url | stylesheet_tag }}
+<script src="{{ "widget-block.js" | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "widget-outfit-block",
+  "target": "section",
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Settings",
+      "info": "[General settings]"
+    },
+    {
+      "label": "Insert block selector",
+      "id": "general_block_selector",
+      "type": "text",
+      "default": ".product-form"
+    },
+    {
+      "type": "header",
+      "content": "Pop-up Settings",
+      "info": "These settings will be applied to the pop-up"
+    },
+    {
+      "type": "image_picker",
+      "id": "modal_input_image",
+      "label": "Custom image for input block (preferably square image)"
+    },
+    {
+      "label": "Virtual Try On Header",
+      "id": "modal_text_virtual",
+      "type": "text",
+      "default": "Widget Virtual Fitting"
+    },
+    {
+      "label": "Encouragement Text",
+      "id": "modal_text_encouragement",
+      "type": "text",
+      "default": "You look good!"
+    },
+    {
+      "label": "Button Text",
+      "id": "modal_button_text",
+      "type": "text",
+      "default": "Add to Cart"
+    },
+    {
+      "type": "select",
+      "id": "modal_button_behaviour",
+      "label": "Button leads to",
+      "options": [
+        {
+          "value": "cart",
+          "label": "Cart Page"
+        },
+        {
+          "value": "checkout",
+          "label": "Checkout Page"
+        }
+      ],
+      "default": "cart"
+    },
+    {
+      "label": "Modal Text (App share)",
+      "id": "modal_text_2",
+      "type": "textarea",
+      "default": "Share with your friends for a discount, they get one too!"
+    },
+    {
+      "label": "Modal Text (Email share)",
+      "id": "modal_text",
+      "type": "textarea",
+      "default": "Send to two friends to try on and receive a discount on this item"
+    },
+    {
+      "label": "Recommendation Header Text",
+      "id": "modal_text_header_recommendations",
+      "type": "text",
+      "default": "Take/Upload an image similar to the outfit you are trying on"
+    },
+    {
+      "label": "Recommendation Text",
+      "id": "modal_text_recommendations",
+      "type": "textarea",
+      "default": "Image should be 9:16 format.\nThe photo must have a plain background.\nThe photo should show you in full height (preferably legs and arms down).\nJPG/PNG only.\nFile size: 500 KB - 1.5 MB recommended, 5 MB max"
+    },
+    {
+      "label": "Background color",
+      "id": "modal_bgcolor",
+      "type": "color",
+      "default": "#FFFFFF"
+    },
+    {
+      "label": "Text color",
+      "id": "modal_text_color",
+      "type": "color",
+      "default": "#000000"
+    },
+    {
+      "label": "Header text color",
+      "id": "modal_header_text_color",
+      "type": "color",
+      "default": "#000000"
+    },
+    {
+      "label": "Button color",
+      "id": "modal_button_bgcolor",
+      "type": "color",
+      "default": "#FFFFFF"
+    },
+    {
+      "label": "Frame color",
+      "id": "modal_frame_color",
+      "type": "color",
+      "default": "#000"
+    },
+    {
+      "type": "range",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "label": "Border radius",
+      "id": "modal_border_radius"
+    },
+    {
+      "type": "header",
+      "content": "Try On button Settings",
+      "info": "These settings will be applied to Try On button"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_add_promotional",
+      "label": "Add Promotional Text above button",
+      "default": true
+    },
+    {
+      "label": "Promotional Text",
+      "id": "button_promotional",
+      "type": "text",
+      "default": "Try on for a discount!"
+    },
+    {
+      "label": "Try On button text",
+      "id": "button_text",
+      "type": "text",
+      "default": "Try on"
+    },
+    {
+      "label": "Text color",
+      "id": "button_text_color",
+      "type": "color",
+      "default": "#FFFFFF"
+    },
+    {
+      "label": "Button color",
+      "id": "button_bgcolor",
+      "type": "color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 0,
+      "label": "Border radius",
+      "id": "button_border_radius"
+    }
+  ]
+}
+{% endschema %}

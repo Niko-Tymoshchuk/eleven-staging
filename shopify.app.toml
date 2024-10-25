@@ -3,7 +3,7 @@
 client_id = "7362ab6031164e01ff7e273b5b5031be"
 name = "Eleven Jewelry"
 handle = "eleven-jewelry"
-application_url = "https://labs-customize-goat-cite.trycloudflare.com"
+application_url = "https://instrumentation-italic-egyptian-tribute.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "read_customers,read_legal_policies,read_orders,read_products,write_dis
 
 [auth]
 redirect_urls = [
-  "https://labs-customize-goat-cite.trycloudflare.com/auth/callback",
-  "https://labs-customize-goat-cite.trycloudflare.com/auth/shopify/callback",
-  "https://labs-customize-goat-cite.trycloudflare.com/api/auth/callback"
+  "https://instrumentation-italic-egyptian-tribute.trycloudflare.com/auth/callback",
+  "https://instrumentation-italic-egyptian-tribute.trycloudflare.com/auth/shopify/callback",
+  "https://instrumentation-italic-egyptian-tribute.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

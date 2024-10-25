@@ -1,5 +1,5 @@
 {
-  "name": "eleven-juwelry",
+  "name": "eleven-jewelry",
   "private": true,
   "scripts": {
     "build": "remix vite:build",
