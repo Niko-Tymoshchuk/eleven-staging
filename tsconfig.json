@@ -20,5 +20,6 @@
     "paths": {
       "~/*": ["./app/*"]
     }
-  }
+  },
+  "exclude": ["extensions"]
 }
