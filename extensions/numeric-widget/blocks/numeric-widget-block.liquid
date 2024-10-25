@@ -59,11 +59,12 @@
 {% schema %}
 {
   "name": "widget-outfit-block",
-  "target": "section",
+  "tag": "section",
+  "class": "widget-section",
+  "limit": 1,
   "enabled_on": {
-    "templates": [
-      "product"
-    ]
+    "templates": ["*"],
+    "groups": ["*"]
   },
   "settings": [
     {

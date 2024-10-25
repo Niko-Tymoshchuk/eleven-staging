@@ -3,7 +3,7 @@
 client_id = "7362ab6031164e01ff7e273b5b5031be"
 name = "Eleven Jewelry"
 handle = "eleven-jewelry"
-application_url = "https://instrumentation-italic-egyptian-tribute.trycloudflare.com"
+application_url = "https://laser-medication-cheers-honduras.trycloudflare.com"
 embedded = true
 
 [build]
@@ -13,14 +13,19 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_customers,read_legal_policies,read_orders,read_products,write_discounts,write_files,write_products"
+scopes = "read_customers,read_orders,read_products,write_files"
 
 [auth]
 redirect_urls = [
-  "https://instrumentation-italic-egyptian-tribute.trycloudflare.com/auth/callback",
-  "https://instrumentation-italic-egyptian-tribute.trycloudflare.com/auth/shopify/callback",
-  "https://instrumentation-italic-egyptian-tribute.trycloudflare.com/api/auth/callback"
+  "https://laser-medication-cheers-honduras.trycloudflare.com/auth/callback",
+  "https://laser-medication-cheers-honduras.trycloudflare.com/auth/shopify/callback",
+  "https://laser-medication-cheers-honduras.trycloudflare.com/api/auth/callback"
 ]
+
+[app_proxy]
+url = "https://laser-medication-cheers-honduras.trycloudflare.com/proxy"
+subpath = "s"
+prefix = "a"
 
 [webhooks]
 api_version = "2024-10"
