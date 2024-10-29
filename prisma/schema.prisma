@@ -30,3 +30,16 @@ model Session {
   collaborator  Boolean?  @default(false)
   emailVerified Boolean?  @default(false)
 }
+
+model Subscriber {
+  id                    Int       @id @default(autoincrement())
+  email                 String    @unique
+  name                  String
+  dateOfBirth           DateTime
+  lifePathNumber        Int
+  expressionNumber      Int
+  soulNumber            Int
+  personalNumber        Int
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @default(now()) @updatedAt
+}

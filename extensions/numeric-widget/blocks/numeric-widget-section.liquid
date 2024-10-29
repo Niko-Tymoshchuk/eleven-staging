@@ -7,6 +7,7 @@
 {
   "name": "Numeric Widget Section",
   "target": "section",
+  "class": "numerology-widget",
   "settings": [
     {
       "type": "header",
@@ -28,11 +29,6 @@
       "id": "widget_description",
       "label": "Description",
       "default": "Enter your information to find your Life Path number."
-    },
-    {
-      "type": "font_picker",
-      "id": "widget_font",
-      "label": "Font"
     },
     {
       "type": "color",
@@ -74,14 +70,65 @@
 }
 {% endschema %}
 
-<div style="background-color: {{ section.settings.widget_bg_color }}; font-family: {{ section.settings.widget_font }}; color: {{ section.settings.widget_text_color }};">
-  <img src="{{ section.settings.widget_icon | img_url: '100x100' }}" width="100px" height="100px" alt="Widget Icon" />
-  <h2>{{ section.settings.widget_title }}</h2>
-  <p>{{ section.settings.widget_description }}</p>
-  <form>
-    <button type="submit" style="background-color: {{ section.settings.button_bg_color }}; color: {{ section.settings.button_text_color }};">
-      {{ section.settings.submit_button_text }}
-    </button>
-    <div class="loader" style="background-color: {{ section.settings.loader_color }};"></div>
-  </form>
-</div>
+<section class="numerology-widget">
+  <div class="container">
+    <div class="icon-wrapper">
+      <img src="{{ "main-icon.svg" | asset_url }}" width="184" height="96" alt="Numerology Icon" class="numerology-icon" />
+    </div>
+
+    <!-- Description -->
+    <div class="numerology-description">
+      <p>Learn how your life will unfold and who you are meant to be. Numerology is the language of the Universe. Are you ready to listen?</p>
+    </div>
+
+    <!-- Form -->
+    <form action="/calculate-number" method="POST" class="numerology-form">
+      <div class="form-group">
+        <input type="text" name="full_name" placeholder="YOUR FULL NAME" required />
+      </div>
+      <div class="form-group">
+        <input type="date" name="date_of_birth" placeholder="ENTER YOUR DATE OF BIRTH" required />
+      </div>
+      <button type="submit" class="calculate-button">CALCULATE MY NUMBER</button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .numerology-widget {
+    background-size: cover;
+    text-align: center;
+    padding: 40px;
+  }
+  .numerology-description p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  .numerology-form {
+    display: inline-block;
+    max-width: 400px;
+    width: 100%;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+  }
+  .calculate-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  .calculate-button:hover {
+    background-color: #333;
+  }
+</style>
