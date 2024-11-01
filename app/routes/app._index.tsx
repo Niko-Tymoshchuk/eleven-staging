@@ -130,42 +130,40 @@ export default function HomePage() {
                             {analytics.totalSubscribers}
                           </Text>
                         </InlineStack>
-                        <Box>
-                          <InlineStack align="space-between">
-                            <InlineStack blockAlign="center" gap="150">
-                              <Icon source={PersonFilledIcon} />
-                              <Text as="p" variant="headingMd">
-                                Average subscriber age
-                              </Text>
-                            </InlineStack>
+                        <InlineStack align="space-between">
+                          <InlineStack blockAlign="center" gap="150">
+                            <Icon source={PersonFilledIcon} />
                             <Text as="p" variant="headingMd">
-                              {analytics.averageAge}
+                              Average subscriber age
                             </Text>
                           </InlineStack>
-                          <AnimatedChart />
+                          <Text as="p" variant="headingMd">
+                            {analytics.averageAge}
+                          </Text>
+                        </InlineStack>
+                        <Box
+                          padding="300"
+                          borderColor="border-emphasis"
+                          borderWidth="0165"
+                          borderRadius="500"
+                        >
+                          <Chart
+                            width={"100%"}
+                            height={300}
+                            chartType="PieChart"
+                            loader={<div>Loading Chart</div>}
+                            data={[
+                              ["Age", "Count"],
+                              ...Object.entries(analytics.ageGroups),
+                            ]}
+                            options={{
+                              title: "Customers age groups",
+                              colors: COLORS,
+                            }}
+                          />
                         </Box>
                       </BlockStack>
-                      <Box
-                        padding="300"
-                        borderColor="border-emphasis"
-                        borderWidth="0165"
-                        borderRadius="500"
-                      >
-                        <Chart
-                          width={"100%"}
-                          height={300}
-                          chartType="PieChart"
-                          loader={<div>Loading Chart</div>}
-                          data={[
-                            ["Age", "Count"],
-                            ...Object.entries(analytics.ageGroups),
-                          ]}
-                          options={{
-                            title: "Customers age groups",
-                            colors: COLORS,
-                          }}
-                        />
-                      </Box>
+                      <AnimatedChart />
                     </Grid>
                     <BlockStack gap="800">
                       <Box

@@ -1,5 +1,8 @@
 import Joi from "joi";
-import type { ActionValidationErrors, SubscriberDataType } from "~/types";
+import type {
+  ActionValidationErrors,
+  SubscriberDataType,
+} from "~/types/commonTypes";
 
 export function prepareSubscriberData(subscriber: FormData) {
   return {

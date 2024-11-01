@@ -3,7 +3,7 @@ import {
   validateSubscriber,
 } from "~/utils/validateSubscriber";
 
-import type { ActionValidationErrors } from "~/types";
+import type { ActionValidationErrors } from "~/types/commonTypes";
 import { differenceInMonths, differenceInYears } from "date-fns";
 import type { Subscriber } from "@prisma/client";
 
@@ -17,27 +17,15 @@ export const subscribeUser = async (
     return null;
   }
 
-  const existedSubscriber = await prisma.subscriber.findUnique({
+  const newSubscriber = await prisma.subscriber.upsert({
     where: {
       email: data.email,
     },
+    update: data,
+    create: data,
   });
 
-  if (existedSubscriber) {
-    return {
-      subscriber: existedSubscriber,
-      isAlreadySubscribed: true,
-    };
-  }
-
-  const newSubscriber = await prisma.subscriber.create({
-    data,
-  });
-
-  return {
-    subscriber: newSubscriber,
-    isAlreadySubscribed: false,
-  };
+  return newSubscriber;
 };
 
 const countNumbers = async (field: keyof Subscriber) => {

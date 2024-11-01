@@ -1,0 +1,88 @@
+{
+  "id": 7720395571270,
+  "title": "Big Number Necklace Gold 40L - 1",
+  "handle": "big-number-necklace-gold-40l-1",
+  "description": "\u003cul\u003e\n\u003cli\u003e18k gold-plated sterling silver\u003c/li\u003e\n\u003cli\u003e2 mm cable chain\u003c/li\u003e\n\u003cli\u003eIncluding 3 size adjustments\u003c/li\u003e\n\u003cli\u003eLength: 40cm\u003c/li\u003e\n\u003cli\u003eNumber size: 8x5 mm\u003c/li\u003e\n\u003cli\u003eEleven identity tag with green coating\u003c/li\u003e\n\u003c/ul\u003e",
+  "published_at": "2024-10-30T09:02:21-04:00",
+  "created_at": "2024-10-24T10:03:21-04:00",
+  "vendor": "Eleven Jewelry",
+  "type": "",
+  "tags": [],
+  "price": 16500,
+  "price_min": 16500,
+  "price_max": 16500,
+  "available": true,
+  "price_varies": false,
+  "compare_at_price": null,
+  "compare_at_price_min": 0,
+  "compare_at_price_max": 0,
+  "compare_at_price_varies": false,
+  "variants": [
+    {
+      "id": 42251239358534,
+      "title": "Default Title",
+      "option1": "Default Title",
+      "option2": null,
+      "option3": null,
+      "sku": "KAL/1100/G925/B01/40L",
+      "requires_shipping": true,
+      "taxable": true,
+      "featured_image": null,
+      "available": true,
+      "name": "Big Number Necklace Gold 40L - 1",
+      "public_title": null,
+      "options": ["Default Title"],
+      "price": 16500,
+      "weight": 0,
+      "compare_at_price": null,
+      "inventory_management": null,
+      "barcode": "KAL/1100/G925/B01/40L",
+      "requires_selling_plan": false,
+      "selling_plan_allocations": [],
+      "quantity_rule": { "min": 1, "max": null, "increment": 1 }
+    }
+  ],
+  "images": [
+    "//germiny.myshopify.com/cdn/shop/files/Necklace_Big_Gold_1_2f77d4bf-09fe-4932-8f4f-8cb61d7f1003.png?v=1729838676",
+    "//germiny.myshopify.com/cdn/shop/files/Big_necklace_gold_1_914ebc25-b1b7-43a5-9c99-b4c411070193.png?v=1729838676"
+  ],
+  "featured_image": "//germiny.myshopify.com/cdn/shop/files/Necklace_Big_Gold_1_2f77d4bf-09fe-4932-8f4f-8cb61d7f1003.png?v=1729838676",
+  "options": ["Title"],
+  "media": [
+    {
+      "alt": null,
+      "id": 24869940199494,
+      "position": 1,
+      "preview_image": {
+        "aspect_ratio": 0.714,
+        "height": 2048,
+        "width": 1463,
+        "src": "//germiny.myshopify.com/cdn/shop/files/Necklace_Big_Gold_1_2f77d4bf-09fe-4932-8f4f-8cb61d7f1003.png?v=1729838676"
+      },
+      "aspect_ratio": 0.714,
+      "height": 2048,
+      "media_type": "image",
+      "src": "//germiny.myshopify.com/cdn/shop/files/Necklace_Big_Gold_1_2f77d4bf-09fe-4932-8f4f-8cb61d7f1003.png?v=1729838676",
+      "width": 1463
+    },
+    {
+      "alt": null,
+      "id": 24869940232262,
+      "position": 2,
+      "preview_image": {
+        "aspect_ratio": 0.714,
+        "height": 2048,
+        "width": 1463,
+        "src": "//germiny.myshopify.com/cdn/shop/files/Big_necklace_gold_1_914ebc25-b1b7-43a5-9c99-b4c411070193.png?v=1729838676"
+      },
+      "aspect_ratio": 0.714,
+      "height": 2048,
+      "media_type": "image",
+      "src": "//germiny.myshopify.com/cdn/shop/files/Big_necklace_gold_1_914ebc25-b1b7-43a5-9c99-b4c411070193.png?v=1729838676",
+      "width": 1463
+    }
+  ],
+  "requires_selling_plan": false,
+  "selling_plan_groups": [],
+  "content": "\u003cul\u003e\n\u003cli\u003e18k gold-plated sterling silver\u003c/li\u003e\n\u003cli\u003e2 mm cable chain\u003c/li\u003e\n\u003cli\u003eIncluding 3 size adjustments\u003c/li\u003e\n\u003cli\u003eLength: 40cm\u003c/li\u003e\n\u003cli\u003eNumber size: 8x5 mm\u003c/li\u003e\n\u003cli\u003eEleven identity tag with green coating\u003c/li\u003e\n\u003c/ul\u003e"
+}

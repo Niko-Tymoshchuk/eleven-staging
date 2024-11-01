@@ -18,3 +18,5 @@ export type ActionValidationErrors = Partial<
     other: string;
   }
 >;
+
+export type WEBHOOK_TOPICS = "APP_UNINSTALLED";

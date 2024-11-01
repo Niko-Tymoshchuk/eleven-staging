@@ -1,0 +1,123 @@
+{
+  "numeric-widget": {
+    "name": "Image banner",
+    "settings": {
+      "image": {
+        "label": "Desktop banner"
+      },
+      "image_mobile": {
+        "label": "Mobile banner"
+      },
+      "widget_overlay_opacity": {
+        "label": "Banner overlay opacity"
+      },
+      "text_color_banner": {
+        "label": "Text color on banner"
+      },
+      "form_placeholders_text_color": {
+        "label": "Placeholders text color"
+      },
+      "form_button_text_color": {
+        "label": "Text color of buttons"
+      },
+      "form_accent_colors": {
+        "label": "Accent colors"
+      },
+      "with_background": {
+        "label": "Add content background"
+      },
+      "with_background_color": {
+        "label": "Background color"
+      },
+      "with_background_opacity": {
+        "label": "Background opacity"
+      },
+      "font_size": {
+        "label": "Font size"
+      },
+      "font_size_mobile": {
+        "label": "Font size (mobile)"
+      }
+    },
+    "blocks": {
+      "heading": {
+        "name": "Heading",
+        "settings": {
+          "heading": {
+            "label": "Heading",
+            "default": "Image banner"
+          }
+        }
+      },
+      "text": {
+        "name": "Text",
+        "settings": {
+          "text": {
+            "label": "Description",
+            "default": "Give customers details about the banner image(s) or content on the template."
+          },
+          "text_style": {
+            "options__1": {
+              "label": "Body"
+            },
+            "options__2": {
+              "label": "Subtitle"
+            },
+            "options__3": {
+              "label": "Uppercase"
+            },
+            "label": "Text style"
+          }
+        }
+      },
+      "buttons": {
+        "name": "Buttons",
+        "settings": {
+          "button_label_1": {
+            "label": "First button label",
+            "info": "Leave the label blank to hide the button.",
+            "default": "Button label"
+          },
+          "button_link_1": {
+            "label": "First button link"
+          },
+          "button_style_secondary_1": {
+            "label": "Use outline button style"
+          },
+          "button_label_2": {
+            "label": "Second button label",
+            "info": "Leave the label blank to hide the button.",
+            "default": "Button label"
+          },
+          "button_link_2": {
+            "label": "Second button link"
+          },
+          "button_style_secondary_2": {
+            "label": "Use outline button style"
+          }
+        }
+      }
+    },
+    "presets": {
+      "name": "Image banner"
+    },
+    "animation": {
+      "content": "Animations",
+      "image_behavior": {
+        "options__1": {
+          "label": "None"
+        },
+        "options__2": {
+          "label": "Ambient movement"
+        },
+        "options__3": {
+          "label": "Fixed background position"
+        },
+        "options__4": {
+          "label": "Zoom in on scroll"
+        },
+        "label": "Image behavior"
+      }
+    }
+  }
+}

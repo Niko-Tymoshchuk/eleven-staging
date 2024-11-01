@@ -1,134 +1,468 @@
 
 
 {{ "widget-section-style.css" | asset_url | stylesheet_tag }}
+{{ "slider.css" | asset_url | stylesheet_tag }}
+
+
+<script>
+  const resultData = {{ shop.metafields.eleven_app.result_text.value | json}};
+  window.resultData = resultData;
+</script>
+
+{%- style -%}
+  :root {
+    --text-color-banner: {{ block.settings.text_color_banner }};
+    --form-placeholders-text-color: {{ block.settings.form_placeholders_text_color }};
+    --form-button-text-color: {{ block.settings.form_button_text_color }};
+    --form-accent-color: {{ block.settings.form_accent_colors }};
+    --font-size: {{ block.settings.font_size }}px;
+  }
+
+  @media screen and (max-width: 767px) {
+    :root {
+      --font-size: {{ block.settings.font_size_mobile }}px;
+    }
+  }
+
+  {% if block.settings.with_background %}
+    .widget-content-wrapper {
+      padding: 20px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .widget-content-wrapper::before {
+      content: "";
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      background-color: {{ block.settings.with_background_color }};
+      opacity: {{ block.settings.with_background_opacity }}%;
+      borrder-radius: 20px;
+    }
+  {% endif %}
+
+  #Widget-{{ section.id }} {
+    background-image: linear-gradient(rgba(0, 0, 0, {{ block.settings.widget_overlay_opacity }}%), rgba(0, 0, 0, {{ block.settings.widget_overlay_opacity }}%)), url("{% if block.settings.image_mobile %}{{ block.settings.image_mobile | image_url: width: 1536 }}{% else %}{{ block.settings.image | image_url: width: 1535 }}{% endif %}");
+  }
+
+  @media screen and (min-width: 768px) {
+      #Widget-{{ section.id }} {
+      background-image: linear-gradient(rgba(0, 0, 0, {{ block.settings.widget_overlay_opacity }}%), rgba(0, 0, 0, {{ block.settings.widget_overlay_opacity }}%)), url("{{ block.settings.image | image_url: width: 3840 }}");
+    }
+  }
+{%- endstyle -%}
+
+
+ <div id="Eleven-app">
+    <section class="content" id="Widget-{{ section.id  }}">
+      <div class="container">
+        <div class="widget" data-field="widget">
+          <div class="widget-content-wrapper">
+              <!-- Step 1 -->
+              <div
+                class="widget-content widget-content__step--1"
+                data-field="widget-content-1"
+                data-step="1"
+              >
+                  <svg width="184" height="96" viewBox="0 0 184 96" fill="currentColor" xmlns="http://www.w3.org/2000/svg" alt="Logo icon" class="logo-icon" data-field="logo-icon">
+                    <rect x="80" width="4" height="84" rx="2"/>
+                    <rect x="98" y="12" width="4" height="84" rx="2"/>
+                  </svg>
+
+                  <p data-field="first-step-text">
+                    {{ 'widgetContent.firstStepText' | t }}
+                  </p>
+                  <form
+                    class="contact-form"
+                    id="widget-contact-form"
+                    data-field="widget-contact-form"
+                  >
+                    <label class="contact-form-label" data-field="form-name-label">
+                      <input
+                        type="text"
+                        name="name"
+                        id="widget-name"
+                        placeholder="{{ 'widgetContent.formNamePlaceholder' | t }}"
+                        class="form-item"
+                        data-field="contact-form-name"
+                      />
+                    </label>
+                    <label class="contact-form-label" data-field="form-date-label">
+                      <input
+                        type="text"
+                        name="date"
+                        id="widget-date"
+                        placeholder="{{ 'widgetContent.formDatePlaceholder' | t }}"
+                        class="form-item"
+                        data-field="contact-form-date"
+                      />
+                    </label>
+                    <button
+                      type="submit"
+                      class="form-item form-button"
+                      data-field="contact-form-submit"
+                    >
+                      {{ 'widgetContent.formSubmitButton' | t }}
+                    </button>
+                  </form>
+              </div>
+              <!-- Step 2 -->
+              <div
+                class="widget-content widget-content__step--2 hidden"
+                data-field="widget-content-2"
+                data-step="2"
+              >
+                <div
+                  data-field="second-step-child-1"
+                  class="widget-substep-wrapper"
+                >
+                  <p class="widget-subtitle" data-field="second-step-subtitle-1">
+                    {{ 'widgetContent.secondStepSubtitle1' | t }}
+                    <span data-field="user-name"></span>
+                  </p>
+                  <p class="widget-common-text" data-field="second-step-text-1">
+                    {{ 'widgetContent.secondStepText1Part1' | t }}
+                    {{ 'widgetContent.secondStepText1Part2' | t }}
+                    {{ 'widgetContent.secondStepText1Part3' | t }}
+                  </p>
+                </div>
+                <div data-field="second-step-child-2">
+                  <p class="widget-subtitle" data-field="second-step-subtitle-2">
+                    {{ 'widgetContent.secondStepSubtitle2' | t }}
+                  </p>
+                  <p data-field="life-path-number" id="life-path-number">0</p>
+                </div>
+                <div
+                  data-field="second-step-child-3"
+                  class="widget-substep-wrapper"
+                >
+                  <p
+                    class="widget-common-text"
+                    data-field="life-path-description"
+                  ></p>
+                  <button
+                    type="button"
+                    class="widget-ghost-button"
+                    data-field="second-step-button"
+                  >
+                    {{ 'widgetContent.secondStepButton' | t }}
+                  </button>
+                </div>
+              </div>
+              <!-- Step 3 -->
+              <div
+                class="widget-content widget-content__step--3 hidden"
+                data-field="widget-content-3"
+                data-step="3"
+              >
+                <div data-field="third-step-child-1" class="widget-substep-wrapper">
+                  <p class="widget-subtitle" data-field="third-step-subtitle-1">
+                    {{ 'widgetContent.thirdStepSubtitle1' | t }}
+                    <span data-field="user-name"></span>
+                  </p>
+                  <p class="widget-common-text" data-field="third-step-text-1">
+                    {{ 'widgetContent.thirdStepText1Part1' | t }}
+                    {{ 'widgetContent.thirdStepText1Part2' | t }}
+                  </p>
+                </div>
+                <div data-field="third-step-child-2">
+                  <p class="widget-subtitle" data-field="third-step-subtitle-2">
+                    {{ 'widgetContent.thirdStepSubtitle2' | t }}
+                  </p>
+                  <p data-field="expression-number" id="expression-number">0</p>
+                </div>
+                <div data-field="third-step-child-3" class="widget-substep-wrapper">
+                  <p
+                    class="widget-common-text"
+                    data-field="expression-description"
+                  ></p>
+                  <button
+                    type="button"
+                    class="widget-ghost-button"
+                    data-field="third-step-button"
+                  >
+                    {{ 'widgetContent.thirdStepButton' | t }}
+                  </button>
+                </div>
+              </div>
+              <!-- Step 4 -->
+              <div
+                class="widget-content widget-content__step--4 hidden"
+                data-field="widget-content-4"
+                data-step="4"
+              >
+                <div
+                  data-field="fourth-step-child-1"
+                  class="widget-substep-wrapper"
+                >
+                  <p class="widget-subtitle" data-field="fourth-step-subtitle-1">
+                    {{ 'widgetContent.fourthStepSubtitle1' | t }}
+                    <span data-field="user-name"></span>
+                  </p>
+                  <p class="widget-common-text" data-field="fourth-step-text-1">
+                    {{ 'widgetContent.fourthStepText1' | t }}
+                  </p>
+                </div>
+                <div data-field="fourth-step-child-2">
+                  <p class="widget-subtitle" data-field="fourth-step-subtitle-2">
+                    {{ 'widgetContent.fourthStepSubtitle2' | t }}
+                  </p>
+                  <p data-field="soul-number" id="soul-number">0</p>
+                </div>
+                <div
+                  data-field="fourth-step-child-3"
+                  class="widget-substep-wrapper"
+                >
+                  <p class="widget-common-text" data-field="soul-description"></p>
+                  <button
+                    type="button"
+                    class="widget-ghost-button"
+                    data-field="fourth-step-button"
+                  >
+                    {{ 'widgetContent.fourthStepButton' | t }}
+                  </button>
+                </div>
+              </div>
+              <!-- Step 5 -->
+              <div
+                class="widget-content widget-content__step--5 hidden"
+                data-field="widget-content-5"
+                data-step="5"
+              >
+                <div data-field="fifth-step-child-1" class="widget-substep-wrapper">
+                  <p class="widget-subtitle" data-field="fifth-step-subtitle-1">
+                    {{ 'widgetContent.fifthStepSubtitle1' | t }}
+                    <span data-field="user-name"></span>
+                  </p>
+                  <p class="widget-common-text" data-field="fifth-step-text-1">
+                    {{ 'widgetContent.fifthStepText1' | t }}
+                  </p>
+                </div>
+                <div class="widget-substep-wrapper" data-field="fifth-step-child-2">
+                  {{ 'widgetContent.fifthStepChild2' | t }}
+                </div>
+                <form
+                  class="contact-form email-form"
+                  id="widget-email-form"
+                  data-field="widget-email-form"
+                >
+                  <label class="contact-form-label" data-field="form-email-label">
+                    <input
+                      type="email"
+                      name="email"
+                      id="widget-email"
+                      placeholder="{{ 'widgetContent.formEmailPlaceholder' | t }}"
+                      class="form-item"
+                      data-field="contact-form-email"
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    class="form-item form-button"
+                    data-field="email-form-submit"
+                  >
+                    {{ 'widgetContent.emailFormSubmitButton' | t }}
+                  </button>
+                </form>
+              </div>
+              <!-- Step 6 -->
+              <div
+                class="widget-content widget-content__step--6 hidden"
+                data-field="widget-content-6"
+                data-step="6"
+              >
+                <div data-field="sixth-step-child-1" class="widget-substep-wrapper">
+                  <p class="widget-subtitle" data-field="sixth-step-subtitle-1">
+                    {{ 'widgetContent.sixthStepSubtitle1' | t }}
+                  </p>
+                </div>
+                <div data-field="sixth-step-child-2" class="widget-substep-wrapper">
+                  {{ 'widgetContent.sixthStepChild2' | t }}
+                </div>
+                <button
+                  type="button"
+                  class="form-item transparent-button"
+                  data-field="sixth-step-button"
+                >
+                  {{ 'widgetContent.sixthStepButton' | t }}
+                </button>
+              </div>
+              <!-- Step 7 -->
+              <div
+                class="widget-content widget-content__step--7 hidden"
+                data-field="widget-content-7"
+                data-step="7"
+              >
+                <div
+                  data-field="seventh-step-child-1"
+                  class="widget-substep-wrapper"
+                >
+                  <p class="widget-subtitle" data-field="seventh-step-subtitle-1">
+                    {{ 'widgetContent.seventhStepSubtitle1' | t }}
+                    <span data-field="user-name"></span>
+                  </p>
+                </div>
+                <div data-field="seventh-step-child-2">
+                  <p class="widget-subtitle" data-field="seventh-step-subtitle-2">
+                    {{ 'widgetContent.seventhStepSubtitle2' | t }}
+                  </p>
+                  <p data-field="personal-number" id="personal-number">0</p>
+                </div>
+                <div
+                  data-field="seventh-step-child-3"
+                  class="widget-substep-wrapper"
+                >
+                  <p
+                    class="widget-common-text"
+                    data-field="personal-description"
+                  ></p>
+                </div>
+              </div>
+              <!-- End of steps -->
+
+          </div>
+         </div>
+      </div>
+    </section>
+    {% comment %} Show section only when we have active collection {% endcomment %}
+    <section class="section-slider hidden" data-field="section-slider">
+      <h3 class="slider-title">{{ 'widgetContent.sliderTitle' | t }}</h3>
+        {% for collection in collections %}
+          <div class="slider-container hidden" data-collection-handle="{{ collection.handle }}">
+            <div class="swiper mySwiper">
+              <div class="swiper-wrapper">
+                {% for product in collection.products %}
+                  <div class="swiper-slide">
+                    <div class="product-card">
+                      <a href="{{ product.url }}" class="product-card__link">
+                        <div class="product-image-wrapper">
+                          {% if product.featured_image != blank %}
+                          <img class="product-image" data-set="ilskjdhflsdk" src="{{ product.featured_image | image_url: width: 450, height: 575 }}" width="400px" height="575px" alt="{{ product.featured_image.alt }}" />
+                          {% else %}
+                          {{ 'image' | placeholder_svg_tag: 'product-placeholder' }}
+                          {% endif %}
+                        </div>
+                      </a>
+                      <div>
+                        <h3 class="product-title">{{ product.title }}</h3>
+                        <p class="product-price">{{ product.price | money_with_currency }}</p>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="swiper-button-prev"><pre> </pre></div>
+              <div class="swiper-button-next"><pre> </pre></div>
+            </div>
+          </div>
+        {% endfor %}
+
+    </section>
+ </div>
+
+
 <script src="{{ "widget-section.js" | asset_url }}" defer></script>
+<script src="{{ "slider.js" | asset_url }}" defer></script>
+
 
 {% schema %}
 {
-  "name": "Numeric Widget Section",
+  "name": "t:numeric-widget.name",
+  "tag": "section",
   "target": "section",
-  "class": "numerology-widget",
+  "class": "section",
+  "enabled_on": {
+    "groups": ["header", "footer"],
+    "templates": ["index", "page"]
+  },
   "settings": [
     {
-      "type": "header",
-      "content": "Widget Settings"
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:numeric-widget.settings.image.label"
     },
     {
       "type": "image_picker",
-      "id": "widget_icon",
-      "label": "Icon"
+      "id": "image_mobile",
+      "label": "t:numeric-widget.settings.image_mobile.label"
     },
     {
-      "type": "text",
-      "id": "widget_title",
-      "label": "Title",
-      "default": "Discover Your Number"
-    },
-    {
-      "type": "textarea",
-      "id": "widget_description",
-      "label": "Description",
-      "default": "Enter your information to find your Life Path number."
-    },
-    {
-      "type": "color",
-      "id": "widget_text_color",
-      "label": "Text Color",
-      "default": "#333333"
+      "type": "range",
+      "id": "widget_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "t:numeric-widget.settings.widget_overlay_opacity.label",
+      "default": 0
     },
     {
       "type": "color",
-      "id": "widget_bg_color",
-      "label": "Background Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "text",
-      "id": "submit_button_text",
-      "label": "Submit Button Text",
-      "default": "Calculate"
-    },
-    {
-      "type": "color",
-      "id": "button_text_color",
-      "label": "Button Text Color",
+      "id": "text_color_banner",
+      "label": "t:numeric-widget.settings.text_color_banner.label",
       "default": "#ffffff"
     },
     {
       "type": "color",
-      "id": "button_bg_color",
-      "label": "Button Background Color",
-      "default": "#007bff"
+      "id": "form_placeholders_text_color",
+      "label": "t:numeric-widget.settings.form_placeholders_text_color.label",
+      "default": "#ffffff"
     },
     {
       "type": "color",
-      "id": "loader_color",
-      "label": "Loader Color",
-      "default": "#cccccc"
-    }
+      "id": "form_button_text_color",
+      "label": "t:numeric-widget.settings.form_button_text_color.label",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "form_accent_colors",
+      "label": "t:numeric-widget.settings.form_accent_colors.label",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "with_background",
+      "label": "t:numeric-widget.settings.with_background.label",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "with_background_color",
+      "label": "t:numeric-widget.settings.with_background_color.label",
+      "default": "#ffffff",
+    },
+    {
+      "type": "range",
+      "id": "with_background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "t:numeric-widget.settings.widget_overlay_opacity.label",
+      "default": 20,
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "%",
+      "label": "t:numeric-widget.settings.font_size.label",
+      "default": 16,
+    },
+    {
+      "type": "range",
+      "id": "font_size_mobile",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "%",
+      "label": "t:numeric-widget.settings.font_size_mobile.label",
+      "default": 12,
+    },
   ]
 }
 {% endschema %}
-
-<section class="numerology-widget">
-  <div class="container">
-    <div class="icon-wrapper">
-      <img src="{{ "main-icon.svg" | asset_url }}" width="184" height="96" alt="Numerology Icon" class="numerology-icon" />
-    </div>
-
-    <!-- Description -->
-    <div class="numerology-description">
-      <p>Learn how your life will unfold and who you are meant to be. Numerology is the language of the Universe. Are you ready to listen?</p>
-    </div>
-
-    <!-- Form -->
-    <form action="/calculate-number" method="POST" class="numerology-form">
-      <div class="form-group">
-        <input type="text" name="full_name" placeholder="YOUR FULL NAME" required />
-      </div>
-      <div class="form-group">
-        <input type="date" name="date_of_birth" placeholder="ENTER YOUR DATE OF BIRTH" required />
-      </div>
-      <button type="submit" class="calculate-button">CALCULATE MY NUMBER</button>
-    </form>
-  </div>
-</section>
-
-<style>
-  .numerology-widget {
-    background-size: cover;
-    text-align: center;
-    padding: 40px;
-  }
-  .numerology-description p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    color: #fff;
-  }
-  .numerology-form {
-    display: inline-block;
-    max-width: 400px;
-    width: 100%;
-  }
-  .form-group {
-    margin-bottom: 15px;
-  }
-  .form-group input {
-    width: 100%;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-  }
-  .calculate-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-    background-color: #000;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  .calculate-button:hover {
-    background-color: #333;
-  }
-</style>

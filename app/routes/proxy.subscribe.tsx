@@ -1,7 +1,7 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { subscribeUser } from "~/services/subscriptionService.server";
-import type { ActionValidationErrors } from "~/types";
+import type { ActionValidationErrors } from "~/types/commonTypes";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const errors: ActionValidationErrors = {};
