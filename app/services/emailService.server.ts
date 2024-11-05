@@ -22,8 +22,6 @@ export const subscribe = async ({
     email: subscriber?.email,
   };
 
-  console.log("body :>> ", body);
-
   const options = {
     method: "POST",
     headers: {
