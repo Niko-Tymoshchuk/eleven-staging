@@ -7546,8 +7546,8 @@ var swiper = new Swiper(".mySwiper", {
   spaceBetween: 8,
   breakpointsBase: "window",
   navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
+    nextEl: "[data-slider='next']",
+    prevEl: "[data-slider='prev']",
   },
 });
 //# sourceMappingURL=swiper-bundle.min.js.map

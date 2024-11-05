@@ -137,10 +137,10 @@
 
 .form-button:hover,
 .form-button:focus {
-  background-color: rgba(var(--form-button-hover-banner), 0.8);
+  background-color: var(--form-button-hover-banner);
 }
 .form-button:disabled {
-  background-color: var(--form-button-disabled-banner);
+  background-color: var(--form-accent-color) !important;
   cursor: not-allowed;
 }
 

@@ -1,58 +1,44 @@
-const nameLabel = document.querySelector('[data-field="form-name-label"]');
-const dateLabel = document.querySelector('[data-field="form-date-label"]');
-const emailLabel = document.querySelector('[data-field="form-email-label"]');
-const nameInput = document.querySelector('[data-field="contact-form-name"]');
-const dateInput = document.querySelector('[data-field="contact-form-date"]');
-const emailInput = document.querySelector('[data-field="contact-form-email"]');
-const sectionSlider = document.querySelector('[data-field="section-slider"]');
-const collections = document.querySelectorAll("[data-collection-handle]");
-dateInput.max = new Date();
+const elements = {
+  nameLabel: document.querySelector('[data-field="form-name-label"]'),
+  dateLabel: document.querySelector('[data-field="form-date-label"]'),
+  emailLabel: document.querySelector('[data-field="form-email-label"]'),
+  nameInput: document.querySelector('[data-field="contact-form-name"]'),
+  dateInput: document.querySelector('[data-field="contact-form-date"]'),
+  emailInput: document.querySelector('[data-field="contact-form-email"]'),
+  sectionSlider: document.querySelector('[data-field="section-slider"]'),
+  collections: document.querySelectorAll("[data-collection-handle]"),
+  defaultCollection: document.querySelector('[data-default-collection="true"]'),
+  contactFormSubmitBtn: document.querySelector(
+    '[data-field="contact-form-submit"]',
+  ),
+  steps: Array.from({ length: 7 }, (_, i) =>
+    document.querySelector(`[data-step="${i + 1}"]`),
+  ),
+  userNameFields: document.querySelectorAll('[data-field="user-name"]'),
+  lifePathNumber: document.querySelector('[data-field="life-path-number"]'),
+  lifePathDescription: document.querySelector(
+    '[data-field="life-path-description"]',
+  ),
+  expressionNumber: document.querySelector('[data-field="expression-number"]'),
+  expressionDescription: document.querySelector(
+    '[data-field="expression-description"]',
+  ),
+  soulNumber: document.querySelector('[data-field="soul-number"]'),
+  soulDescription: document.querySelector('[data-field="soul-description"]'),
+  personalNumber: document.querySelector('[data-field="personal-number"]'),
+  personalDescription: document.querySelector(
+    '[data-field="personal-description"]',
+  ),
+  stepButtons: {
+    secondStepBtn: document.querySelector('[data-field="second-step-button"]'),
+    thirdStepBtn: document.querySelector('[data-field="third-step-button"]'),
+    fourthStepBtn: document.querySelector('[data-field="fourth-step-button"]'),
+    subscriptionBtn: document.querySelector('[data-field="email-form-submit"]'),
+    sixthStepBtn: document.querySelector('[data-field="sixth-step-button"]'),
+  },
+};
 
-const contactFormSubmitBtn = document.querySelector(
-  '[data-field="contact-form-submit"]',
-);
-
-const firstStep = document.querySelector('[data-step="1"]');
-const secondStep = document.querySelector('[data-step="2"]');
-const thirdStep = document.querySelector('[data-step="3"]');
-const fourthStep = document.querySelector('[data-step="4"]');
-const fifthStep = document.querySelector('[data-step="5"]');
-const sixthStep = document.querySelector('[data-step="6"]');
-const seventhStep = document.querySelector('[data-step="7"]');
-
-const userNameFields = document.querySelectorAll('[data-field="user-name"]');
-const lifePathNumber = document.querySelector(
-  '[data-field="life-path-number"]',
-);
-const lifePathDescription = document.querySelector(
-  '[data-field="life-path-description"]',
-);
-const expressionNumber = document.querySelector(
-  '[data-field="expression-number"]',
-);
-const expressionDescription = document.querySelector(
-  '[data-field="expression-description"]',
-);
-const soulNumber = document.querySelector('[data-field="soul-number"]');
-const soulDescription = document.querySelector(
-  '[data-field="soul-description"]',
-);
-const personalNumber = document.querySelector('[data-field="personal-number"]');
-const personalDescription = document.querySelector(
-  '[data-field="personal-description"]',
-);
-
-const secondStepBtn = document.querySelector(
-  '[data-field="second-step-button"]',
-);
-const thirdStepBtn = document.querySelector('[data-field="third-step-button"]');
-const fourthStepBtn = document.querySelector(
-  '[data-field="fourth-step-button"]',
-);
-const subscriptionBtn = document.querySelector(
-  '[data-field="email-form-submit"]',
-);
-const sixthStepBtn = document.querySelector('[data-field="sixth-step-button"]');
+elements.dateInput.max = new Date().toISOString().split("T")[0];
 
 class NumberAlgorithm {
   #lettersAsNumbers = {
@@ -179,17 +165,20 @@ class NumberAlgorithm {
   }
 }
 
-let customerName = "";
-let customerDate = "";
-let customEmail = "";
-let isLoading = false;
-let nameError = null;
-let dateError = null;
-let emailError = null;
-let lifePathNumberValue = null;
-let expressionNumberValue = null;
-let soulNumberValue = null;
-let personalNumberValue = null;
+let customerData = {
+  name: "",
+  date: "",
+  email: "",
+  isLoading: false,
+  errors: { name: null, date: null, email: null },
+  numberValues: {
+    lifePath: null,
+    expression: null,
+    soul: null,
+    personal: null,
+  },
+  personalDescription: null,
+};
 
 function clearErrors(value) {
   const errorField = document.querySelector(`[data-field="${value}-error"]`);
@@ -202,230 +191,248 @@ function clearErrors(value) {
     errorLabel.classList.remove("form-label-error");
   }
 
-  const errorMap = {
-    name: () => (nameError = null),
-    date: () => (dateError = null),
-    email: () => (emailError = null),
-  };
+  customerData.errors[value] = null;
 
-  if (errorMap[value]) errorMap[value]();
-
-  const shouldEnableSubmit = {
-    name: () =>
-      !nameError &&
-      !dateError &&
-      contactFormSubmitBtn.removeAttribute("disabled"),
-    date: () =>
-      !nameError &&
-      !dateError &&
-      contactFormSubmitBtn.removeAttribute("disabled"),
-    email: () => !emailError && subscriptionBtn.removeAttribute("disabled"),
-  };
-
-  if (shouldEnableSubmit[value]) shouldEnableSubmit[value]();
+  if (!customerData.errors.name && !customerData.errors.date) {
+    elements.contactFormSubmitBtn.removeAttribute("disabled");
+  }
+  if (!customerData.errors.email) {
+    elements.stepButtons.subscriptionBtn.removeAttribute("disabled");
+  }
 }
 
-nameInput.addEventListener("input", () => {
-  if (nameError) {
-    clearErrors("name");
+function handleInputChange(event, field) {
+  if (customerData.errors[field]) {
+    clearErrors(field);
   }
-  customerName = nameInput.value;
-});
+  customerData[field] = event.target.value;
+}
 
-dateInput.addEventListener("input", () => {
-  if (dateError) {
-    clearErrors("date");
+elements.nameInput.addEventListener("input", (e) =>
+  handleInputChange(e, "name"),
+);
+elements.dateInput.addEventListener("input", (e) =>
+  handleInputChange(e, "date"),
+);
+elements.emailInput.addEventListener("input", (e) =>
+  handleInputChange(e, "email"),
+);
+
+elements.dateInput.addEventListener(
+  "focus",
+  () => (elements.dateInput.type = "date"),
+);
+elements.dateInput.addEventListener(
+  "blur",
+  () => (elements.dateInput.type = "text"),
+);
+
+function validateField(value, regex, errorMessage) {
+  if (value.length === 0) {
+    return "This field is required";
   }
-  customerDate = dateInput.value;
-});
-
-emailInput.addEventListener("input", () => {
-  if (emailError) {
-    clearErrors("email");
+  if (!regex.test(value)) {
+    return errorMessage;
   }
-  customEmail = emailInput.value;
-});
-
-dateInput.addEventListener("focus", () => {
-  dateInput.type = "date";
-});
-
-dateInput.addEventListener("blur", () => {
-  dateInput.type = "text";
-});
+  return null;
+}
 
 function validateName(name) {
-  const nameRegex = /^[A-Za-z]+([ -][A-Za-z]+)*$/;
-  if (name.length === 0) {
-    nameError = "Name is required";
-    return false;
-  }
-  if (!nameRegex.test(name)) {
-    nameError = "Only english alphabets and hyphens between words are allowed";
-    return false;
-  }
-  return true;
+  return validateField(
+    name,
+    /^[A-Za-z]+([ -][A-Za-z]+)*$/,
+    "Only english alphabets and hyphens between words are allowed",
+  );
 }
 
 function validateDate(date) {
   if (date.length === 0) {
-    dateError = "Full date is required";
-    return false;
+    return "Full date is required";
   }
   if (new Date(date) > new Date()) {
-    dateError = "Date cannot be in the future";
-    return false;
+    return "Date cannot be in the future";
   }
-  return true;
+  return null;
 }
 
 function validateEmail(email) {
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  if (email.length === 0) {
-    emailError = "Email is required";
-    return false;
-  }
-  if (!emailRegex.test(email)) {
-    emailError = "Please enter a valid email";
-    return false;
-  }
-  return true;
+  return validateField(
+    email,
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    "Please enter a valid email",
+  );
 }
 
 function setActiveCollection(number) {
-  collections.forEach((collection) => {
+  elements.defaultCollection.classList.add("hidden");
+  elements.collections.forEach((collection) => {
     const collectionId = collection.getAttribute("data-collection-handle");
-
-    if (collectionId == String(number)) {
-      collection.classList.remove("hidden");
-    } else {
-      collection.classList.add("hidden");
-    }
+    collection.classList.toggle("hidden", collectionId != String(number));
   });
+
+  if (
+    Array.from(elements.collections).every((collection) =>
+      collection.classList.contains("hidden"),
+    )
+  ) {
+    elements.defaultCollection.classList.remove("hidden");
+  }
 }
 
-const handleFormSubmit = (e) => {
+function handleFormSubmit(e) {
   e.preventDefault();
-  const name = customerName.trim();
-  const date = customerDate.trim();
+  const name = customerData.name.trim();
+  const date = customerData.date.trim();
 
-  if (!validateName(name) || !validateDate(date)) {
-    if (!validateName(name)) {
-      nameLabel.classList.add("form-label-error");
-      nameLabel.insertAdjacentHTML(
+  customerData.errors.name = validateName(name);
+  customerData.errors.date = validateDate(date);
+
+  if (customerData.errors.name || customerData.errors.date) {
+    if (customerData.errors.name) {
+      elements.nameLabel.classList.add("form-label-error");
+      elements.nameLabel.insertAdjacentHTML(
         "beforeend",
-        `<div class="form-field-error" data-field="name-error">${nameError}</div>`,
+        `<div class="form-field-error" data-field="name-error">${customerData.errors.name}</div>`,
       );
     }
-    if (!validateDate(date)) {
-      dateLabel.classList.add("form-label-error");
-      dateLabel.insertAdjacentHTML(
+    if (customerData.errors.date) {
+      elements.dateLabel.classList.add("form-label-error");
+      elements.dateLabel.insertAdjacentHTML(
         "beforeend",
-        `<div class="form-field-error" data-field="date-error">${dateError}</div>`,
+        `<div class="form-field-error" data-field="date-error">${customerData.errors.date}</div>`,
       );
     }
     e.target.setAttribute("disabled", true);
-    isLoading = false;
+    customerData.isLoading = false;
     return;
   }
 
   const numberAlgorithm = new NumberAlgorithm(date, name);
 
-  lifePathNumberValue = numberAlgorithm.lifePathNumber;
-  expressionNumberValue = numberAlgorithm.expressionNumber;
-  soulNumberValue = numberAlgorithm.soulNumber;
-  personalNumberValue = numberAlgorithm.personalNumber;
+  customerData.numberValues.lifePath = numberAlgorithm.lifePathNumber;
+  customerData.numberValues.expression = numberAlgorithm.expressionNumber;
+  customerData.numberValues.soul = numberAlgorithm.soulNumber;
+  customerData.numberValues.personal = numberAlgorithm.personalNumber;
+  customerData.personalDescription = numberAlgorithm.personalDescription;
 
-  firstStep.classList.add("hidden");
-  userNameFields.forEach((el) => (el.textContent = name));
+  elements.steps[0].classList.add("hidden");
+  elements.userNameFields.forEach((el) => (el.textContent = name));
 
-  if (lifePathNumber) {
-    lifePathNumber.textContent = lifePathNumberValue;
-  }
-  if (lifePathDescription) {
-    lifePathDescription.textContent = numberAlgorithm.lifePathDescription;
-  }
-  if (expressionNumber) {
-    expressionNumber.textContent = expressionNumberValue;
-  }
-  if (expressionDescription) {
-    expressionDescription.textContent = numberAlgorithm.expressionDescription;
-  }
-  if (soulNumber) {
-    soulNumber.textContent = soulNumberValue;
-  }
-  if (soulDescription) {
-    soulDescription.textContent = numberAlgorithm.soulDescription;
-  }
-  if (personalNumber) {
-    personalNumber.textContent = personalNumberValue;
-  }
-  if (personalDescription) {
-    personalDescription.textContent = numberAlgorithm.personalDescription;
-  }
+  if (elements.lifePathNumber)
+    elements.lifePathNumber.textContent = customerData.numberValues.lifePath;
+  if (elements.lifePathDescription)
+    elements.lifePathDescription.textContent =
+      numberAlgorithm.lifePathDescription;
+  if (elements.expressionNumber)
+    elements.expressionNumber.textContent =
+      customerData.numberValues.expression;
+  if (elements.expressionDescription)
+    elements.expressionDescription.textContent =
+      numberAlgorithm.expressionDescription;
+  if (elements.soulNumber)
+    elements.soulNumber.textContent = customerData.numberValues.soul;
+  if (elements.soulDescription)
+    elements.soulDescription.textContent = numberAlgorithm.soulDescription;
+  if (elements.personalNumber)
+    elements.personalNumber.textContent = customerData.numberValues.personal;
+  if (elements.personalDescription)
+    elements.personalDescription.textContent =
+      numberAlgorithm.personalDescription;
 
   window.scrollTo(0, 0);
-  sectionSlider.classList.remove("hidden");
-  secondStep.classList.remove("hidden");
-  setActiveCollection(lifePathNumberValue);
-  lifePathNumber.classList.add("widget-number");
-};
+  elements.sectionSlider.classList.remove("hidden");
+  elements.steps[1].classList.remove("hidden");
+  setActiveCollection(customerData.numberValues.lifePath);
+  elements.lifePathNumber.classList.add("widget-number");
+}
 
-contactFormSubmitBtn.addEventListener("click", (e) => handleFormSubmit(e));
+elements.contactFormSubmitBtn.addEventListener("click", handleFormSubmit);
 
-secondStepBtn.addEventListener("click", () => {
-  secondStep.classList.add("hidden");
-  setActiveCollection(expressionNumberValue);
+function handleStepButtonClick(
+  currentStep,
+  nextStep,
+  numberValue,
+  numberElement,
+) {
+  elements.steps[currentStep].classList.add("hidden");
+  setActiveCollection(numberValue);
   window.scrollTo(0, 0);
-  thirdStep.classList.remove("hidden");
-  expressionNumber.classList.add("widget-number");
-});
+  elements.steps[nextStep].classList.remove("hidden");
+  if (numberElement) numberElement.classList.add("widget-number");
+}
 
-thirdStepBtn.addEventListener("click", () => {
-  thirdStep.classList.add("hidden");
-  setActiveCollection(soulNumberValue);
-  fourthStep.classList.remove("hidden");
-  window.scrollTo(0, 0);
-  soulNumber.classList.add("widget-number");
-});
+elements.stepButtons.secondStepBtn.addEventListener("click", () =>
+  handleStepButtonClick(
+    1,
+    2,
+    customerData.numberValues.expression,
+    elements.expressionNumber,
+  ),
+);
+elements.stepButtons.thirdStepBtn.addEventListener("click", () =>
+  handleStepButtonClick(
+    2,
+    3,
+    customerData.numberValues.soul,
+    elements.soulNumber,
+  ),
+);
+elements.stepButtons.fourthStepBtn.addEventListener("click", () =>
+  handleStepButtonClick(3, 4, null, null),
+);
+elements.stepButtons.sixthStepBtn.addEventListener("click", () =>
+  handleStepButtonClick(
+    5,
+    6,
+    customerData.numberValues.personal,
+    elements.personalNumber,
+  ),
+);
 
-fourthStepBtn.addEventListener("click", () => {
-  fourthStep.classList.add("hidden");
-  fifthStep.classList.remove("hidden");
-  window.scrollTo(0, 0);
-});
-
-sixthStepBtn.addEventListener("click", () => {
-  sixthStep.classList.add("hidden");
-  seventhStep.classList.remove("hidden");
-  window.scrollTo(0, 0);
-  personalNumber.classList.add("widget-number");
-});
-
-subscriptionBtn.addEventListener("click", async (e) => {
+elements.stepButtons.subscriptionBtn.addEventListener("click", async (e) => {
   e.preventDefault();
-  isLoading = true;
+  customerData.isLoading = true;
 
-  const email = customEmail.trim();
-  if (!validateEmail(email)) {
-    emailLabel.classList.add("form-label-error");
-    emailLabel.insertAdjacentHTML(
+  const email = customerData.email.trim();
+  customerData.errors.email = validateEmail(email);
+
+  if (customerData.errors.email) {
+    elements.emailLabel.classList.add("form-label-error");
+    elements.emailLabel.insertAdjacentHTML(
       "beforeend",
-      `<div class="form-field-error" data-field="email-error">${emailError}</div>`,
+      `<div class="form-field-error" data-field="email-error">${customerData.errors.email}</div>`,
     );
     e.target.setAttribute("disabled", true);
-    isLoading = false;
+    customerData.isLoading = false;
     return;
   }
+
+  const finalCollection = window.collections.find(
+    (item) => item.handle === customerData.numberValues.personal.toString(),
+  );
+
+  console.log("finalCollection :>> ", finalCollection);
+
   try {
     const formData = new FormData();
     formData.append("email", email);
-    formData.append("name", customerName);
-    formData.append("dateOfBirth", new Date(customerDate));
-    formData.append("lifePathNumber", lifePathNumberValue);
-    formData.append("expressionNumber", expressionNumberValue);
-    formData.append("soulNumber", soulNumberValue);
-    formData.append("personalNumber", personalNumberValue);
+    formData.append("name", customerData.name);
+    formData.append("dateOfBirth", new Date(customerData.date));
+    formData.append("lifePathNumber", customerData.numberValues.lifePath);
+    formData.append("expressionNumber", customerData.numberValues.expression);
+    formData.append("soulNumber", customerData.numberValues.soul);
+    formData.append("personalNumber", customerData.numberValues.personal);
+    formData.append(
+      "collectionDescription",
+      finalCollection?.body_html || null,
+    );
+    formData.append(
+      "collectionImage",
+      finalCollection?.image?.src
+        ? `https:${finalCollection?.image?.src}`
+        : null,
+    );
+    formData.append("personalDescription", customerData.personalDescription);
 
     const request = await fetch("/a/s/subscribe", {
       method: "POST",
@@ -433,14 +440,13 @@ subscriptionBtn.addEventListener("click", async (e) => {
     });
 
     if (request.status === 200) {
-      fifthStep.classList.add("hidden");
-      setActiveCollection(personalNumberValue);
-      sixthStep.classList.remove("hidden");
+      elements.steps[4].classList.add("hidden");
+      elements.steps[5].classList.remove("hidden");
       window.scrollTo(0, 0);
     }
   } catch (error) {
   } finally {
     e.target.setAttribute("disabled", false);
-    isLoading = false;
+    customerData.isLoading = false;
   }
 });

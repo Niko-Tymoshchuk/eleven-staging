@@ -3,11 +3,11 @@
 client_id = "7362ab6031164e01ff7e273b5b5031be"
 name = "Eleven Jewelry"
 handle = "eleven-jewelry"
-application_url = "https://eft-nearby-goldfish.ngrok-free.app"
+application_url = "https://chairs-pens-remind-stripes.trycloudflare.com"
 embedded = true
 
 [build]
-automatically_update_urls_on_dev = false
+automatically_update_urls_on_dev = true
 dev_store_url = "germiny.myshopify.com"
 include_config_on_deploy = true
 
@@ -17,9 +17,9 @@ scopes = "read_customers,read_orders,read_products,write_files"
 
 [auth]
 redirect_urls = [
-  "https://eft-nearby-goldfish.ngrok-free.app/auth/callback",
-  "https://eft-nearby-goldfish.ngrok-free.app/auth/shopify/callback",
-  "https://eft-nearby-goldfish.ngrok-free.app/api/auth/callback"
+  "https://chairs-pens-remind-stripes.trycloudflare.com/auth/callback",
+  "https://chairs-pens-remind-stripes.trycloudflare.com/auth/shopify/callback",
+  "https://chairs-pens-remind-stripes.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
@@ -30,7 +30,7 @@ api_version = "2024-10"
   uri = "/webhooks/app/uninstalled"
 
 [app_proxy]
-url = "https://eft-nearby-goldfish.ngrok-free.app/proxy"
+url = "https://chairs-pens-remind-stripes.trycloudflare.com/proxy"
 subpath = "s"
 prefix = "a"
 
