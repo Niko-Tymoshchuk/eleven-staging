@@ -1,6 +1,7 @@
 import type { Shop } from "@prisma/client";
 import type { AdminApiContext } from "@shopify/shopify-app-remix/server";
 import resultsData from "~/assets/results.json";
+import { serializeGraphQlIds } from "~/utils/serializeGraphQlIds";
 
 const requestShopData = `
   #graphql
@@ -50,9 +51,11 @@ export const createShop = async (admin: AdminApiContext) => {
   }: Omit<Shop, "myShopifyDomain"> & { myshopifyDomain: string } =
     result?.data?.shop;
 
+  const shopId = serializeGraphQlIds(id);
+
   await prisma.shop.upsert({
     where: {
-      id,
+      id: shopId,
     },
     update: {
       contactEmail: contactEmail,
@@ -83,8 +86,6 @@ export const initializeMetafields = async (
   admin: AdminApiContext,
   shopId: string,
 ) => {
-  console.log("typeof resultsData :>> ", typeof resultsData);
-
   const result = await admin.graphql(requestMetafields, {
     variables: {
       metafields: [

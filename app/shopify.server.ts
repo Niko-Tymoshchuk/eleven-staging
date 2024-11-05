@@ -28,7 +28,7 @@ const shopify = shopifyApp({
   webhooks: {
     APP_UNINSTALLED: {
       deliveryMethod: DeliveryMethod.Http,
-      callbackUrl: "/webhooks",
+      callbackUrl: "/webhooks/app/uninstalled",
     },
   },
   hooks: {
@@ -37,8 +37,7 @@ const shopify = shopifyApp({
 
       try {
         const id = await createShop(admin);
-        const res = await initializeMetafields(admin, id);
-        console.log("res :>> ", res);
+        await initializeMetafields(admin, id);
       } catch (error) {
         console.error("error", error);
       }

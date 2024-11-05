@@ -7,6 +7,7 @@
 <script>
   const resultData = {{ shop.metafields.eleven_app.result_text.value | json}};
   window.resultData = resultData;
+  window.collections = {{ collections | json }};
 </script>
 
 {%- style -%}
@@ -16,6 +17,7 @@
     --form-button-text-color: {{ block.settings.form_button_text_color }};
     --form-accent-color: {{ block.settings.form_accent_colors }};
     --font-size: {{ block.settings.font_size }}px;
+    --form-button-hover-banner: {{ block.settings.form_accent_colors }}BB;
   }
 
   @media screen and (max-width: 767px) {
@@ -325,11 +327,19 @@
          </div>
       </div>
     </section>
-    {% comment %} Show section only when we have active collection {% endcomment %}
+
+
+    {% assign valid_handles = "1,2,3,4,5,6,7,8,9,11,22,33" | split: "," %}
+    {% assign default_collection_handle = block.settings.default_collection %}
+
+
     <section class="section-slider hidden" data-field="section-slider">
       <h3 class="slider-title">{{ 'widgetContent.sliderTitle' | t }}</h3>
-        {% for collection in collections %}
-          <div class="slider-container hidden" data-collection-handle="{{ collection.handle }}">
+      {% for collection in collections limit:250 %}
+        {% if collection.handle and valid_handles contains collection.handle or collection.handle == default_collection_handle %}
+          <div class="slider-container hidden" data-default-collection={%
+            if collection.handle == default_collection_handle %}true{% else %}false{% endif
+          %} data-collection-handle="{{ collection.handle }}">
             <div class="swiper mySwiper">
               <div class="swiper-wrapper">
                 {% for product in collection.products %}
@@ -338,7 +348,7 @@
                       <a href="{{ product.url }}" class="product-card__link">
                         <div class="product-image-wrapper">
                           {% if product.featured_image != blank %}
-                          <img class="product-image" data-set="ilskjdhflsdk" src="{{ product.featured_image | image_url: width: 450, height: 575 }}" width="400px" height="575px" alt="{{ product.featured_image.alt }}" />
+                          <img class="product-image" data-set="ilskjdhflsdk" src="{{ product.featured_image | image_url: width: 900, height: 1150 }}" width="400px" height="575px" alt="{{ product.featured_image.alt }}" />
                           {% else %}
                           {{ 'image' | placeholder_svg_tag: 'product-placeholder' }}
                           {% endif %}
@@ -352,12 +362,12 @@
                   </div>
                 {% endfor %}
               </div>
-              <div class="swiper-button-prev"><pre> </pre></div>
-              <div class="swiper-button-next"><pre> </pre></div>
+              <div data-slider="prev" class="swiper-button-prev"><pre> </pre></div>
+              <div data-slider="next" class="swiper-button-next"><pre> </pre></div>
             </div>
           </div>
-        {% endfor %}
-
+        {% endif %}
+      {% endfor %}
     </section>
  </div>
 
@@ -386,6 +396,12 @@
       "type": "image_picker",
       "id": "image_mobile",
       "label": "t:numeric-widget.settings.image_mobile.label"
+    },
+    {
+      "type": "collection",
+      "id": "default_collection",
+      "label": "t:numeric-widget.settings.default_collection.label",
+
     },
     {
       "type": "range",

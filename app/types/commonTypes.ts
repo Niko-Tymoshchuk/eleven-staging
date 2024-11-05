@@ -5,6 +5,13 @@ export type SubscriberDataType = Omit<
   "id" | "createdAt" | "updatedAt"
 >;
 
+export type SubscribeType = {
+  subscriber: Subscriber;
+  collectionDescription: string | null;
+  collectionImage: string | null;
+  personalDescription: string;
+};
+
 export type ActionValidationErrors = Partial<
   {
     [K in keyof Subscriber]: string;

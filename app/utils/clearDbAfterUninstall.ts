@@ -12,7 +12,7 @@ export async function clearDbAfterUninstall({
   await prisma.session.deleteMany({ where: { shop } });
   await prisma.shop.delete({
     where: {
-      shopifyShopId,
+      id: shopifyShopId,
     },
   });
 }

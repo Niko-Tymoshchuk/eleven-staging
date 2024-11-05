@@ -37,6 +37,9 @@
       },
       "font_size_mobile": {
         "label": "Font size (mobile)"
+      },
+      "default_collection": {
+        "label": "Default collection"
       }
     },
     "blocks": {
