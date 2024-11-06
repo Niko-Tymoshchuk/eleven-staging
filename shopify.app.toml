@@ -1,8 +1,8 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "7362ab6031164e01ff7e273b5b5031be"
-name = "Eleven Jewelry"
-handle = "eleven-jewelry"
+client_id = "021a73200dbf5ba6a70e5fdb7e4ef95a"
+name = "Eleven Jewelry staging"
+handle = "eleven-jewelry-staging"
 application_url = "https://chairs-pens-remind-stripes.trycloudflare.com"
 embedded = true
 
